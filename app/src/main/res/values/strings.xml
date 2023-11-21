@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Flower</string>
+    <string name="my_plants_fragment">My Plants Fragment</string>
+    <string name="my_garden_fragment">My Garden Fragment</string>
 </resources>
