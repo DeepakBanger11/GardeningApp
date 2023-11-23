@@ -42,11 +42,13 @@ android {
         buildConfig = true
     }
 }
+
 dependencies {
 
     implementation("androidx.databinding:databinding-runtime:8.1.4")
     implementation("androidx.work:work-runtime-ktx:2.8.1")
     implementation("androidx.paging:paging-common-android:3.3.0-alpha02")
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     val lifecycle_version = "2.6.2"
     val arch_version = "2.2.0"
     val appcompat_version = "1.6.1"
@@ -83,9 +85,8 @@ dependencies {
     implementation ("com.squareup.okhttp3:logging-interceptor:4.11.0")
 
     //Glide
-    implementation("com.github.bumptech.glide:glide:4.11.0")
-
-    annotationProcessor("com.github.bumptech.glide:compiler:4.11.0")
+    implementation("com.github.bumptech.glide:glide:4.12.0")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
 
     //daggar
     implementation("com.google.dagger:dagger: 2.48")
@@ -105,6 +106,7 @@ dependencies {
 
     // Room components
     implementation("androidx.room:room-runtime:2.6.0")
+    implementation("androidx.room:room-ktx:2.6.0")
     implementation("androidx.test.ext:junit-ktx:1.1.5")
     implementation("androidx.test:runner:1.5.2")
     kapt("androidx.room:room-compiler:2.6.0")

@@ -1,37 +1,43 @@
 package com.getstarted.flower.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
-import com.getstarted.flower.R
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager.widget.ViewPager
-import com.getstarted.flower.model.PlantData
+import com.bumptech.glide.Glide
+import com.getstarted.flower.R
+import com.getstarted.flower.data.Plant
 
-class PlantListAdapter(var plants: ArrayList<PlantData>) :
+class PlantListAdapter(private val plantList: List<Plant>) :
     RecyclerView.Adapter<PlantListAdapter.PlantViewHolder>() {
 
-    fun updatePlants(newPlants: List<PlantData>) {
-        plants.clear()
-        plants.addAll(newPlants)
-        notifyDataSetChanged()
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlantViewHolder {
+        val itemView = LayoutInflater.from(parent.context)
+            .inflate(R.layout.plant_list, parent, false)
+        return PlantViewHolder(itemView)
     }
-
-    override fun onCreateViewHolder(parent: ViewGroup, p1: Int) = PlantViewHolder(
-        LayoutInflater.from(parent.context).inflate(R.layout.items_plants, parent, false)
-    )
-
-    override fun getItemCount() = plants.size
 
     override fun onBindViewHolder(holder: PlantViewHolder, position: Int) {
-        holder.bind(plants[position])
+        val plant = plantList[position]
+        holder.bind(plant)
     }
 
-    class PlantViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val plantName: TextView = view.findViewById(R.id.plantname)
-        fun bind(plantData: PlantData) {
-            plantName.text = plantData.plantName
+    override fun getItemCount(): Int {
+        return plantList.size
+    }
+
+    inner class PlantViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val nameTextView: TextView = itemView.findViewById(R.id.plantNameTextView)
+        private val imageHolder:ImageView = itemView.findViewById(R.id.plantImageView)
+        fun bind(plant: Plant) {
+            nameTextView.text = plant.name
+            Glide.with(itemView)
+                .load(plant.imageUrl)
+                .into(imageHolder)
+            // Bind other data to your UI elements
         }
     }
 }
