@@ -5,6 +5,10 @@ buildscript {
         google()
         mavenCentral()
     }
+    dependencies {
+        val nav_version = "2.7.5"
+        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version")
+    }
 }
 
 plugins {
@@ -13,4 +17,5 @@ plugins {
     id("org.jetbrains.kotlin.android") version "1.9.0" apply false
     id("org.jetbrains.kotlin.plugin.serialization") version "1.7.20" apply false
     id("com.google.dagger.hilt.android") version "2.46" apply false
+    id("androidx.navigation.safeargs.kotlin") version "2.7.5" apply false
 }

@@ -2,4 +2,9 @@
     <string name="app_name">Flower</string>
     <string name="my_plants_fragment">My Plants Fragment</string>
     <string name="my_garden_fragment">My Garden Fragment</string>
+    <string name="plant_name">Plant Name</string>
+    <string name="plant_needs">Plant Needs</string>
+    <string name="plant_duration">Plant Duration</string>
+    <string name="plant_description">Plant Description</string>
+    <string name="back_button">Back To Main Page</string>
 </resources>

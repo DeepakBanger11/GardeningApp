@@ -34,15 +34,14 @@ class MainActivity : AppCompatActivity() {
 
         tab1?.customView = createTabView("My Garden", R.drawable.gardening)
         tab2?.customView = createTabView("My Plants", R.drawable.plant)
+
     }
     private fun createTabView(tabTitle: String, iconResId: Int): View {
         val tabView = layoutInflater.inflate(R.layout.tab_layout, null) as LinearLayout
         val tabText = tabView.findViewById<TextView>(R.id.tab_text)
         val tabIcon = tabView.findViewById<ImageView>(R.id.tab_icon)
-
         tabText.text = tabTitle
         tabIcon.setImageResource(iconResId)
-
         return tabView
     }
 }
