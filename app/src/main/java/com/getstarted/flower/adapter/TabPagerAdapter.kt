@@ -22,4 +22,5 @@ import androidx.fragment.app.FragmentPagerAdapter
     override fun getPageTitle(position: Int): CharSequence? {
         return fragmentTitleList[position]
     }
+
 }

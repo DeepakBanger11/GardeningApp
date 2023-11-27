@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.getstarted.flower.R
 import com.getstarted.flower.adapter.PlantListAdapter
 import com.getstarted.flower.data.Plant
+import com.getstarted.flower.data.PlantJson
 import com.google.gson.Gson
 import java.io.IOException
 
@@ -35,7 +36,7 @@ class MyPlantsFragment : Fragment() {
         return view
 
     }
-    private fun loadPlantsFromJson(context: Context): List<Plant> {
+    private fun loadPlantsFromJson(context: Context): List<PlantJson> {
         val jsonFileName = "plants.json"
         val jsonString: String
         try {
@@ -46,6 +47,6 @@ class MyPlantsFragment : Fragment() {
             return emptyList()
         }
 
-        return Gson().fromJson(jsonString, Array<Plant>::class.java).toList()
+        return Gson().fromJson(jsonString, Array<PlantJson>::class.java).toList()
     }
 }

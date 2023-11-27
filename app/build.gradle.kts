@@ -92,11 +92,8 @@ dependencies {
 
     //daggar
     implementation("com.google.dagger:dagger: 2.48")
-    //implementation("com.google.dagger:dagger-android-support: 2.48")
-    // annotationProcessor("com.google.dagger:dagger-compiler: 2.48")
-    // annotationProcessor("com.google.dagger:dagger-android-processor: 2.48")
-    kapt("com.google.dagger:hilt-compiler:2.44")
-    implementation("com.google.dagger:hilt-android:2.44")
+    implementation("com.google.dagger:hilt-android:2.46")
+    kapt("com.google.dagger:hilt-compiler:2.46")
 
     implementation("androidx.recyclerview:recyclerview:1.3.2")
 

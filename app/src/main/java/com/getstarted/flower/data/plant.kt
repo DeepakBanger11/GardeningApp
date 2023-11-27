@@ -3,11 +3,12 @@ package com.getstarted.flower.data
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.getstarted.flower.utils.Constants.DATABASE_TABLE
 
-@Entity(tableName = "plants")
+@Entity(tableName = DATABASE_TABLE)
 data class Plant(
-    @PrimaryKey
-    @ColumnInfo(name = "id")
+    @PrimaryKey(autoGenerate = true)
+    val id:Int = 0,
     val plantId: String,
     val name: String,
     val description: String,
