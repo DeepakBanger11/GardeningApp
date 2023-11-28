@@ -1,10 +1,9 @@
 package com.getstarted.flower
 
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.view.View
 import android.webkit.WebView
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -17,7 +16,9 @@ import com.getstarted.flower.data.PlantJson
 import com.getstarted.flower.model.PlantViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.Gson
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class PlantDetail() : AppCompatActivity() {
     private val plantViewModel: PlantViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,7 +36,7 @@ class PlantDetail() : AppCompatActivity() {
         val gson = Gson()
         var plant = gson.fromJson(plantJsonString, PlantJson::class.java)
 
-        if (plantJsonString != null) {
+        if (plant != null) {
             Glide.with(this).load(plant.imageUrl).into(image)
             plantName.text = plant.name
             need.text = "Watering needs"
@@ -47,9 +48,22 @@ class PlantDetail() : AppCompatActivity() {
         backButton.setOnClickListener() {
             finish()
         }
+        plantViewModel.getAllPlant.observe(this) { plantList ->
+            val isPlantPresent = plantList.any { it.plantId == plant.plantId }
+            if (isPlantPresent) {
+                floatingActionButton.visibility = View.GONE
+            } else {
+                floatingActionButton.visibility = View.VISIBLE
+            }
+        }
 
-        floatingActionButton.setOnClickListener() {
-
+        floatingActionButton.setOnClickListener {
+            // Check if the plant is already in the database
+            plant?.let {
+                plantViewModel.addPlant(Plant(0, plant.plantId, plant.name, plant.description, plant.wateringInterval, plant.growZoneNumber, plant.imageUrl))
+                }
+            val intent = Intent(this@PlantDetail, MainActivity::class.java)
+            startActivity(intent)
         }
     }
 

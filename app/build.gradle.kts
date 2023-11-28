@@ -62,7 +62,7 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.5")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.5")
 
-//Accompanist Navigation Animation
+    //Accompanist Navigation Animation
     implementation("com.google.accompanist:accompanist-navigation-animation:0.32.0")
 
     //DataStore Preferences
@@ -119,7 +119,7 @@ dependencies {
     testImplementation("org.mockito:mockito-core:3.12.4")
     testImplementation("org.mockito:mockito-inline:3.8.0")
     androidTestImplementation("org.mockito:mockito-android:3.12.4")
-// testing flow, made easy
+    // testing flow, made easy
     implementation("app.cash.turbine:turbine:1.0.0")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     androidTestImplementation(platform("androidx.compose:compose-bom:2023.03.00"))

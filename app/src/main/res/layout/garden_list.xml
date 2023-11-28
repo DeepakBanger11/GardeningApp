@@ -13,7 +13,7 @@
     android:id="@+id/gardenCardView"
     android:clickable="true"
     android:focusable="true"
-    app:cardBackgroundColor="@color/green"
+    app:cardBackgroundColor="@color/white"
     app:cardCornerRadius="8dp"
     app:cardElevation="8dp"
     app:cardPreventCornerOverlap="false"

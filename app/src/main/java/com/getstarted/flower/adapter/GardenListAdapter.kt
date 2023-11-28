@@ -7,15 +7,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.getstarted.flower.R
 import com.getstarted.flower.data.Plant
+import com.getstarted.flower.model.PlantViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
 class GardenListAdapter(
     private val context: Context,
-    private val gardenList: List<Plant>
+    private var gardenList: List<Plant>
 ) :
     RecyclerView.Adapter<GardenListAdapter.GardenViewHolder>() {
 
@@ -45,5 +48,9 @@ class GardenListAdapter(
                 .into(imageHolder)
             // Bind other data to your UI elements
         }
+    }
+    fun updateList(newList: List<Plant>) {
+        gardenList = newList
+        notifyDataSetChanged()
     }
 }

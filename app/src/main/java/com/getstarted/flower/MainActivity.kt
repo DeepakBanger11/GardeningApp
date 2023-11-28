@@ -3,13 +3,11 @@ package com.getstarted.flower
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.viewModels
-import androidx.lifecycle.ViewModel
 import androidx.viewpager.widget.ViewPager
 import com.getstarted.flower.adapter.TabPagerAdapter
 import com.getstarted.flower.data.Plant
@@ -17,18 +15,13 @@ import com.getstarted.flower.fragment.MyGardenFragment
 import com.getstarted.flower.fragment.MyPlantsFragment
 import com.getstarted.flower.model.PlantViewModel
 import com.google.android.material.tabs.TabLayout
-import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-    val plantViewModel:PlantViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        Log.d("getall","${plantViewModel.getAllPlant}")
-
         val viewPager: ViewPager = findViewById(R.id.viewPager)
         val tabLayout: TabLayout = findViewById(R.id.tabLayout)
 
