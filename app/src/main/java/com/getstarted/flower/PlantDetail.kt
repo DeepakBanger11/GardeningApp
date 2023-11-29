@@ -39,8 +39,8 @@ class PlantDetail() : AppCompatActivity() {
         if (plant != null) {
             Glide.with(this).load(plant.imageUrl).into(image)
             plantName.text = plant.name
-            need.text = "Watering needs"
-            duration.text = "every " + (plant.wateringInterval).toString() + " days"
+            need.text = plant.wateringInterval+" Watering"
+            duration.text = "Cycle "+plant.growZoneNumber
             var htmlContent = plant.description
             description.loadDataWithBaseURL(null, htmlContent, "text/html", "UTF-8", null)
 
