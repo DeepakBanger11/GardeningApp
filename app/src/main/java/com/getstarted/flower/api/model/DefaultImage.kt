@@ -1,4 +1,4 @@
-package com.getstarted.flower.api
+package com.getstarted.flower.api.model
 
 data class DefaultImage(
     val license: Int,

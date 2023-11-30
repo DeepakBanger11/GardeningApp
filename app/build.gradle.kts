@@ -53,6 +53,7 @@ dependencies {
     val lifecycle_version = "2.6.2"
     val arch_version = "2.2.0"
     val appcompat_version = "1.6.1"
+    val paging_version = "3.2.1"
 
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
@@ -96,7 +97,18 @@ dependencies {
     kapt("com.google.dagger:hilt-compiler:2.46")
 
     implementation("androidx.recyclerview:recyclerview:1.3.2")
-
+    //Paging libararies
+    implementation("androidx.paging:paging-runtime:$paging_version")
+    // alternatively - without Android dependencies for tests
+    testImplementation("androidx.paging:paging-common:$paging_version")
+    // optional - RxJava2 support
+    implementation("androidx.paging:paging-rxjava2:$paging_version")
+    // optional - RxJava3 support
+    implementation("androidx.paging:paging-rxjava3:$paging_version")
+    // optional - Guava ListenableFuture support
+    implementation("androidx.paging:paging-guava:$paging_version")
+    // optional - Jetpack Compose integration
+    implementation("androidx.paging:paging-compose:3.3.0-alpha02")
 
 
     implementation("androidx.appcompat:appcompat:$appcompat_version")
