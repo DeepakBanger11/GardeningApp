@@ -1,13 +1,20 @@
 package com.getstarted.flower.room.repository
 
 import androidx.lifecycle.LiveData
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 
 import com.getstarted.flower.api.PlantApiService
+import com.getstarted.flower.api.model.Data
 
 import com.getstarted.flower.api.model.PlantJsonResponse
+import com.getstarted.flower.api.model.detail.SpeciesDetails
+import com.getstarted.flower.api.model.paging.PlantPagingSource
 import com.getstarted.flower.data.Plant
 import com.getstarted.flower.data.PlantDao
 import dagger.hilt.android.scopes.ViewModelScoped
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 @ViewModelScoped
@@ -29,14 +36,17 @@ class GardenRepository @Inject constructor(
         plantDao.deletePlant(plant = plant)
     }
 
-    suspend fun getPlantData(): PlantJsonResponse {
-        return plantApiService.getPlantData()
+    suspend fun getPlantData(page:Int): PlantJsonResponse {
+        return plantApiService.getPlantData(page)
+    }
+    suspend fun getPlantDetails(id:String): SpeciesDetails {
+        return plantApiService.getPlantDetails(id)
+    }
+    fun getPlantsPaging(): Flow<PagingData<Data>> {
+        return Pager(
+            config = PagingConfig(pageSize = 30, enablePlaceholders = false),
+            pagingSourceFactory = { PlantPagingSource(plantApiService) }
+        ).flow
     }
 
-//    fun getPlantsPaging(): Flow<PagingData<PlantJson>> {
-//        return Pager(
-//            config = PagingConfig(pageSize = 30, enablePlaceholders = false),
-//            pagingSourceFactory = { PlantPagingSource(plantApiService) }
-//        ).flow
-//    }
 }

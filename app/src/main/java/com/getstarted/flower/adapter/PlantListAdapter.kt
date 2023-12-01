@@ -8,17 +8,19 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.paging.PagingData
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.getstarted.flower.PlantDetail
 import com.getstarted.flower.R
+import com.getstarted.flower.api.model.Data
 import com.getstarted.flower.data.PlantJson
 import com.google.gson.Gson
 
-class PlantListAdapter(
-    private val context: Context,
-    private val plantList: List<PlantJson>) :
-    RecyclerView.Adapter<PlantListAdapter.PlantViewHolder>() {
+class PlantListAdapter() :
+    PagingDataAdapter<Data, PlantListAdapter.PlantViewHolder>(PlantListDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlantViewHolder {
         val itemView = LayoutInflater.from(parent.context)
@@ -27,33 +29,45 @@ class PlantListAdapter(
     }
 
     override fun onBindViewHolder(holder: PlantViewHolder, position: Int) {
-        val plant = plantList[position]
-        holder.bind(plant)
-        holder.itemView.findViewById<CardView>(R.id.plantCardView).setOnClickListener(){
-            val intent = Intent(context, PlantDetail::class.java)
+        val plant = getItem(position)
+        plant?.let { holder.bind(it) }
+        holder.itemView.findViewById<CardView>(R.id.plantCardView).setOnClickListener() {
+            val intent = Intent(holder.itemView.context, PlantDetail::class.java)
             val gson = Gson()
             val plantJsonString = gson.toJson(plant)
             intent.putExtra("plantJson", plantJsonString)
-            context.startActivity(intent)
+            holder.itemView.context.startActivity(intent)
         }
     }
 
-    override fun getItemCount(): Int {
-        return plantList.size
+    class PlantListDiffCallback : DiffUtil.ItemCallback<Data>() {
+        override fun areItemsTheSame(oldItem: Data, newItem: Data) =
+            oldItem.id == newItem.id
+
+        override fun areContentsTheSame(
+            oldItem: Data,
+            newItem: Data,
+        ) = oldItem == newItem
+
+        override fun getChangePayload(oldItem: Data, newItem: Data): Any? {
+            if (oldItem != newItem) {
+                return newItem
+            }
+            return super.getChangePayload(oldItem, newItem)
+        }
     }
+
 
     inner class PlantViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val nameTextView: TextView = itemView.findViewById(R.id.plantNameTextView)
-        private val imageHolder:ImageView = itemView.findViewById(R.id.plantImageView)
-        fun bind(plant: PlantJson) {
-            nameTextView.text = plant.name
+        private val imageHolder: ImageView = itemView.findViewById(R.id.plantImageView)
+        fun bind(plant: Data) {
+            nameTextView.text = plant.common_name
             Glide.with(itemView)
-                .load(plant.imageUrl)
+                .load(plant.default_image?.original_url ?: "mo image")
                 .into(imageHolder)
             // Bind other data to your UI elements
         }
-
-
-
     }
+
 }
