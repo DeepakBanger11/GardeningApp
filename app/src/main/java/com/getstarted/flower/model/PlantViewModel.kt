@@ -34,6 +34,16 @@ class PlantViewModel @Inject constructor(
     private val _speciesDetailsResponse = MutableLiveData<SpeciesDetails>()
     val speciesDetailsResponse: LiveData<SpeciesDetails> = _speciesDetailsResponse
 
+    private val _searchQuery = MutableLiveData<String>()
+
+    val searchQuery: LiveData<String>
+        get() = _searchQuery
+
+    // Function to update search query
+    fun updateSearchQuery(query: String) {
+        _searchQuery.value = query
+    }
+
     fun addPlant(plant: Plant) {
         viewModelScope.launch {
             repository.addPlant(plant)
@@ -50,10 +60,10 @@ class PlantViewModel @Inject constructor(
         }
     }
 
-    fun getPlantData(page:Int) {
+    fun getPlantData(page:Int,query: String) {
         try {
             viewModelScope.launch {
-                val response = apiRequestWithRetry { repository.getPlantData(page) }
+                val response = apiRequestWithRetry { repository.getPlantData(page,query) }
                 _plantJsonResponse.postValue(response)
             }
         } catch (e:IOException){
@@ -82,17 +92,21 @@ class PlantViewModel @Inject constructor(
         }
         throw IOException("Failed after $retryCount attempts")
     }
-    fun getPlantsPaging(): Flow<PagingData<Data>> {
-        return repository.getPlantsPaging().cachedIn(viewModelScope)
+    suspend fun getPlantsPaging(): Flow<PagingData<Data>> {
+        return apiRequestWithRetry{ repository.getPlantsPaging(_searchQuery.value ?: "").cachedIn(viewModelScope)}
     }
 
-     fun getPlantDetails(id:String) {
-        try {
-            viewModelScope.launch {
-                val response = apiRequestWithRetry { repository.getPlantDetails(id) }
-                _speciesDetailsResponse.postValue(response)
-            }
-        } catch (e:IOException){
-        }
+     fun getPlantDetails(id:Int) {
+         try {
+             viewModelScope.launch {
+                 Log.d("PlantViewModel", "Fetching plant details for ID: $id")
+                 val response =  repository.getPlantDetails(id)
+                 _speciesDetailsResponse.postValue(response)
+                 Log.d("PlantViewModel", "Plant details response: $response")
+             }
+         } catch (e: IOException) {
+             Log.e("PlantViewModel", "IOException: ${e.message}")
+             // Handle the IOException if needed
+         }
     }
 }

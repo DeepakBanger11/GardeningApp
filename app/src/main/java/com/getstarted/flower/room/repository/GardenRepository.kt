@@ -15,13 +15,14 @@ import com.getstarted.flower.data.Plant
 import com.getstarted.flower.data.PlantDao
 import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.flow.Flow
+import retrofit2.http.Query
 import javax.inject.Inject
 
 @ViewModelScoped
 open //Scope annotation for bindings that should exist for the life of a a single ViewModel.
 class GardenRepository @Inject constructor(
     private val plantDao: PlantDao,
-    private val plantApiService: PlantApiService,
+    private val plantApiService: PlantApiService
 ) {
     val getAllPlant: LiveData<List<Plant>> = plantDao.getAllPlants()
     fun getSelectedPlant(taskId: Int): LiveData<List<Plant>> {
@@ -36,17 +37,16 @@ class GardenRepository @Inject constructor(
         plantDao.deletePlant(plant = plant)
     }
 
-    suspend fun getPlantData(page:Int): PlantJsonResponse {
-        return plantApiService.getPlantData(page)
+    suspend fun getPlantData(page:Int,query: String): PlantJsonResponse {
+        return plantApiService.getPlantData(page,query)
     }
-    suspend fun getPlantDetails(id:String): SpeciesDetails {
+    suspend fun getPlantDetails(id:Int): SpeciesDetails {
         return plantApiService.getPlantDetails(id)
     }
-    fun getPlantsPaging(): Flow<PagingData<Data>> {
+    fun getPlantsPaging(query: String): Flow<PagingData<Data>> {
         return Pager(
             config = PagingConfig(pageSize = 30, enablePlaceholders = false),
-            pagingSourceFactory = { PlantPagingSource(plantApiService) }
+            pagingSourceFactory = { PlantPagingSource(plantApiService,query) }
         ).flow
     }
-
 }

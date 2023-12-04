@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide
 import com.getstarted.flower.api.model.Data
 import com.getstarted.flower.data.Plant
 import com.getstarted.flower.model.PlantViewModel
+import com.getstarted.flower.utils.Constants.API_KEY
 import com.getstarted.flower.utils.Constants.DESCRIPTION
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.Gson
@@ -36,6 +37,7 @@ class PlantDetail() : AppCompatActivity() {
         var image = findViewById<ImageView>(R.id.detailImageView)
         var description = findViewById<WebView>(R.id.plantDetailDescription)
         val backButton = findViewById<ImageButton>(R.id.backButton)
+        val shareButton= findViewById<ImageButton>(R.id.shareButton)
         val floatingActionButton = findViewById<FloatingActionButton>(R.id.floatingActionButton)
 
         val gson = Gson()
@@ -47,7 +49,7 @@ class PlantDetail() : AppCompatActivity() {
             need.text = plant.watering+" Watering"
             duration.text = "Cycle "+plant.cycle
             Log.d("html",plant.id.toString())
-//            plantViewModel.getPlantDetails(plant.id.toString())
+           // plantViewModel.getPlantDetails(plant.id.toInt())
 //            plantViewModel.speciesDetailsResponse.observe(this) { response ->
 //                htmlContent = response.description
                 description.loadDataWithBaseURL(null, htmlContent, "text/html", "UTF-8", null)
@@ -74,6 +76,17 @@ class PlantDetail() : AppCompatActivity() {
             val intent = Intent(this@PlantDetail, MainActivity::class.java)
             startActivity(intent)
         }
+
+        shareButton.setOnClickListener {
+            val shareIntent = Intent(Intent.ACTION_SEND)
+            shareIntent.type = "text/plain" // Set MIME type for text
+
+            val shareText = "${plant.common_name}\n\n${plant.watering} watering\n\nhttps://perenual.com/"
+
+            shareIntent.putExtra(Intent.EXTRA_TEXT, shareText)
+            startActivity(Intent.createChooser(shareIntent, "Share via"))
+        }
     }
+
 
 }

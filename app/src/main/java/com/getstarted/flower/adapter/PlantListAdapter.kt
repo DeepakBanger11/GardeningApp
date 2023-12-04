@@ -1,6 +1,6 @@
 package com.getstarted.flower.adapter
 
-import android.content.Context
+
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
-import androidx.paging.PagingData
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -16,12 +15,10 @@ import com.bumptech.glide.Glide
 import com.getstarted.flower.PlantDetail
 import com.getstarted.flower.R
 import com.getstarted.flower.api.model.Data
-import com.getstarted.flower.data.PlantJson
 import com.google.gson.Gson
 
 class PlantListAdapter() :
     PagingDataAdapter<Data, PlantListAdapter.PlantViewHolder>(PlantListDiffCallback()) {
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlantViewHolder {
         val itemView = LayoutInflater.from(parent.context)
             .inflate(R.layout.plant_list, parent, false)
@@ -64,10 +61,11 @@ class PlantListAdapter() :
         fun bind(plant: Data) {
             nameTextView.text = plant.common_name
             Glide.with(itemView)
-                .load(plant.default_image?.original_url ?: "mo image")
+                .load(plant.default_image?.original_url ?: "no image")
                 .into(imageHolder)
             // Bind other data to your UI elements
         }
     }
+
 
 }

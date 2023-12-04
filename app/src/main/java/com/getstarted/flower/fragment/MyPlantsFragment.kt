@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.map
@@ -37,10 +38,9 @@ class MyPlantsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val recyclerView: RecyclerView = view.findViewById(R.id.plantRecyclerView)
+        val searchView: SearchView = view.findViewById(R.id.searchView)
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
-
         plantListAdapter = PlantListAdapter()
-
         recyclerView.adapter = plantListAdapter // Set the adapter to RecyclerView
 
         lifecycleScope.launch {
@@ -48,6 +48,25 @@ class MyPlantsFragment : Fragment() {
                 plantListAdapter.submitData(pagingData)
             }
         }
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return true
+            }
 
+            override fun onQueryTextChange(newText: String?): Boolean {
+                // Update LiveData with the new text
+                plantViewModel.updateSearchQuery(newText.orEmpty()) // Use orEmpty() to handle null case
+                return true
+            }
+        })
+
+        plantViewModel.searchQuery.observe(viewLifecycleOwner) { query ->
+            lifecycleScope.launch {
+                plantViewModel.getPlantsPaging().collectLatest { pagingData ->
+                    plantListAdapter.submitData(pagingData)
+                }
+            }
+        }
     }
 }
+

@@ -69,6 +69,7 @@ dependencies {
     //DataStore Preferences
     implementation("androidx.datastore:datastore-preferences:1.0.0")
 
+
     // ViewModel and Lifecycle
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version")

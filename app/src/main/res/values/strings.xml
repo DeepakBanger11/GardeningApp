@@ -8,4 +8,5 @@
     <string name="plant_description">Plant Description</string>
     <string name="back_button">Back To Main Page</string>
     <string name="floating_button">Add New Plant To Garden</string>
+    <string name="share_button">Click Share Button</string>
 </resources>
